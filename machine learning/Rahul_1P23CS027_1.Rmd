@@ -1,0 +1,82 @@
+---
+output:
+  
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+        
+  pdf_document:
+    
+    fig_caption: true
+    fig_crop: false
+  word_document: default
+params:
+    printcode: false
+---
+---
+title: "MACHINE LEARNING ASSIGNMENT-1"
+author: "RAHUL_R"
+Reg No: "1P23CS027"
+date: "2024-09-12"
+output: html_document
+---
+
+
+```{r echo=FALSE,include=FALSE}
+# include this code chunk as-is to set options
+knitr::opts_chunk$set(comment=NA, prompt=TRUE, out.width=750, fig.height=8, fig.width=8)
+library(ISLR)
+```
+### (a) Which of the predictors are quantitative, and which are qualitative?
+```{r}
+str(Auto)
+Auto$year <- as.factor(Auto$year)
+Auto$origin <- as.factor(Auto$origin)
+```
+The qualitative variables are: mpg, cylinders, displacement, horsepower, weight, acceleration.
+The Qualitative:year, name, origin.
+
+### (b) What is the range of each quantitative predictor? You can answer this using the range() function. 
+```{r}
+column_names <- which(names(Auto) %in% c("year","name", "origin"))
+column_names
+sapply(Auto[, -column_names], range)
+```
+### (c) What is the mean and standard deviation of each quantitative predictor? 
+```{r}
+sapply(Auto[, -column_names], mean)
+```
+```{r}
+sapply(Auto[, -column_names], sd)
+```
+### (d) Now remove the 10th through 85th observations. What is the range, mean, and standard deviation of each predictor in the subset of the data that remains? 
+```{r}
+rangedata <- Auto[-seq(10, 85), -column_names]
+sapply(rangedata,range)
+```
+```{r}
+sapply(rangedata[-ncol(rangedata)],mean)
+```
+```{r}
+sapply(rangedata[-ncol(rangedata)],sd)
+```
+### (e)	Using the full data set, investigate the predictors graphically, using scatterplots or other tools of your choice. Create some plots highlighting the relationships among the predictors. Comment on your findings.
+```{r}
+plot(Auto)
+pairs(Auto[, -column_names])
+```
+```{r}
+plot(mpg ~ weight, data = Auto)
+```
+```{r}
+plot(mpg ~ year, data = Auto)
+```
+
+### (f) Suppose that we wish to predict gas mileage (mpg) on the basis of the other variables. Do your plots suggest that any of the other variables might be useful in predicting mpg? Justify your answer.
+```{r}
+pairs(Auto)
+```
+ All the predictors have some connection to mpg. However, the factor named "name" doesn't have enough data points for accurate predictions and could lead to making incorrect assumptions. It's better not to use this factor to avoid bad the results.
+
